@@ -9,13 +9,11 @@ html {
     font-weight: bold;
     margin: 10px 0;
     display: block;
-    width: 100vw;
     text-align: center;
 }
 
 .tab {
     margin: 15px 0;
-    width: 100vw;
     justify-content: center;
 }
 
