@@ -302,7 +302,7 @@ module.exports = {
         // 禁止使用八进制的转义符
         'no-octal-escape': 'error',
         // 禁止对函数的参数重新赋值
-        'no-param-reassign': 'error',
+        'no-param-reassign': 'off',
         // 禁止使用 __proto__
         'no-proto': 'error',
         // 禁止重复定义变量
@@ -435,7 +435,7 @@ module.exports = {
         'no-undefined': 'error',
         // 定义过的变量必须使用
         'no-unused-vars': [
-            'error',
+            'off',
             {
                 vars: 'all',
                 args: 'none',
@@ -579,7 +579,7 @@ module.exports = {
         'id-match': 'off',
         // @fixable 一个缩进必须用四个空格替代
         'indent': [
-            'error',
+            'off',
             4,
             {
                 SwitchCase: 1,
@@ -785,7 +785,7 @@ module.exports = {
         'quote-props': 'off',
         // @fixable 必须使用单引号，禁止使用双引号
         'quotes': [
-            'error',
+            'off',
             'single',
             {
                 avoidEscape: true,
@@ -797,7 +797,7 @@ module.exports = {
         'require-jsdoc': 'off',
         // @fixable 结尾必须有分号
         'semi': [
-            'error',
+            'off',
             'always'
         ],
         // @fixable 一行有多个语句时，分号前面禁止有空格，分号后面必须有空格
@@ -852,7 +852,7 @@ module.exports = {
         ],
         // @fixable 注释的斜线或 * 后必须有空格
         'spaced-comment': [
-            'error',
+            'off',
             'always',
             {
                 block: {

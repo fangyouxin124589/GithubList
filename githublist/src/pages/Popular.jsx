@@ -179,7 +179,7 @@ class Popular extends React.Component {
   render() {
     let renderInfo;
     const { githubData, loading, hasMore, errorContent, error } = this.state;
-    const addList = loading ? "add_hide" : "add_more";
+    // const addList = loading ? "add_hide" : "add_more";
     if (githubData.length !== 0) {
       renderInfo = (
         <InfiniteScroll
