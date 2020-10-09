@@ -1,0 +1,36 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.header_ul {
+    padding: 0;
+}
+
+.header_li {
+    margin-right: 10px;
+    list-style-type: none;
+}
+
+.navlink {
+    text-decoration: none;
+    color: black;
+    font-weight: bolder;
+    font-size: 20px;
+}
+
+.header_li .active {
+    color: rgb(221, 45, 45) !important
+}
+
+@media (max-width: 1200px) {
+    .header {
+        width: 100%;
+    }
+}

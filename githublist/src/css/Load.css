@@ -1,0 +1,26 @@
+.load {
+    width: 600px;
+    justify-content: space-around;
+}
+
+.load_img {
+    width: 100px;
+    height: 180px;
+    background-color: rgba(245, 236, 236, 0.829);
+    margin: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.load_img2 {
+    width: 100px;
+    height: 180px;
+    background-color: rgb(250, 246, 7);
+    margin: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@media screen and (max-width: 680px) {
+    .load {
+        width: 100%;
+    }
+}
