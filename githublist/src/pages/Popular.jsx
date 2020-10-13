@@ -233,7 +233,7 @@ class Popular extends React.Component {
       renderInfo = (
         <div>
           <h3 style={{ textAlign: "center" }}>
-            世界名画~（github热门项目加载中）
+            世界名画~~~（github热门项目加载中）
           </h3>
           <Load />
         </div>
