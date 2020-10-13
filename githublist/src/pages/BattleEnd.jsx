@@ -28,15 +28,33 @@ class BattleEnd extends React.Component {
   componentDidMount() {
     this.fetchGet();
   }
-  fetchGet() {
-    const lS_winner = localStorage.getItem("winner");
-    const lS_playerOne = JSON.parse(localStorage.getItem("playerOne"));
-    const lS_playerTwo = JSON.parse(localStorage.getItem("playerTwo"));
-    location.href = "#/BattleEnd" + "?user1=" + lS_playerOne.name + "&user2=" + lS_playerTwo.name; 
+  async fetchGet() {
+    // console.log(this.props);
+    let obj = {};
+    if (window.location.href.includes("?")) {
+      let arr = window.location.href.split("?")[1].split("&");
+      for (let i = 0; i < arr.length; i++) {
+        let res = arr[i].split("=");
+        obj[res[0]] = res[1];
+      }
+    }
+    const { user1, user2 } = obj;
+    const urlOne = `https://api.github.com/search/repositories?q=${user1}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlTwo = `https://api.github.com/search/repositories?q=${user2}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const resOne = await axios.get(urlOne);
+    const resTwo = await axios.get(urlTwo);
+    const playerOne = resOne.data.items[0];
+    const playerTwo = resTwo.data.items[0];
+    let winner = "";
+    if (playerOne.stargazers_count > playerTwo.stargazers_count) {
+      winner = playerOne.name;
+    } else if (playerOne.stargazers_count < playerTwo.stargazers_count) {
+      winner = playerTwo.name;
+    }
     this.setState({
-      winner: lS_winner,
-      playerOne: lS_playerOne,
-      playerTwo: lS_playerTwo,
+      winner,
+      playerOne,
+      playerTwo,
     });
   }
   resetTo() {
@@ -56,9 +74,9 @@ class BattleEnd extends React.Component {
           <ul style={battleCardStyle} className="d-flex flex-wrap">
             <Card
               listNum={
-                winner == playerOne.name
+                winner === playerOne.name
                   ? "Winner"
-                  : winner == ""
+                  : winner === ""
                   ? "Draw"
                   : "Loser"
               }
@@ -70,9 +88,9 @@ class BattleEnd extends React.Component {
             ></Card>
             <Card
               listNum={
-                winner == playerTwo.name
+                winner === playerTwo.name
                   ? "Winner"
-                  : winner == ""
+                  : winner === ""
                   ? "Draw"
                   : "Loser"
               }

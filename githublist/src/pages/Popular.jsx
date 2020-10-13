@@ -72,8 +72,6 @@ class Popular extends React.Component {
       pageNum: 1,
       hasMore: true,
     });
-    localStorage.setItem("name", name);
-    localStorage.setItem("url", url);
     setTimeout(() => {
       this.FetchGit();
     }, 200);
@@ -82,22 +80,32 @@ class Popular extends React.Component {
   //获得数据
   async FetchGit() {
     if (this.state.count === 0) {
-      const name = localStorage.getItem("name");
-      if (name) {
+      // const name = localStorage.getItem("name");
+      let obj = {};
+      // console.log(window.location.href);
+      if (window.location.href.includes("?")) {
+        let arr = window.location.href.split("?")[1].split("&");
+        for (let i = 0; i < arr.length; i++) {
+          let res = arr[i].split("=");
+          obj[res[0]] = res[1];
+        }
+      }
+      // console.log(obj.language);
+      if (obj.language) {
         try {
-          location.href = "#/Popular?language=" + name;
-          const res = await axios.get(localStorage.getItem("url"));
+          const url = `https://api.github.com/search/repositories?q=stars:%3E1+language:${obj.language}&sort=stars&order=desc&type=Repositories&page=`;
+          const res = await axios.get(url);
+          // console.log(res);
           this.setState({
             githubData: res.data.items,
             loading: false,
             count: this.state.count + 1,
-            name: localStorage.getItem("name"),
-            tabUrl: localStorage.getItem("url"),
+            name: obj.language,
+            tabUrl: url,
             pageNum: 2,
           });
-          const filterOption = document.getElementById(
-            localStorage.getItem("name")
-          );
+          const filterOption = document.getElementById(obj.language);
+          // console.log(filterOption);
           if (filterOption) {
             document
               .querySelectorAll(".tab-list.active")
@@ -112,7 +120,6 @@ class Popular extends React.Component {
           });
         }
       } else {
-        location.href = "#/Popular"
         const { pageNum, tabUrl, githubData, pageTotal } = this.state;
         if (pageNum > pageTotal) {
           this.setState({
@@ -158,6 +165,7 @@ class Popular extends React.Component {
           githubData: githubData.concat(res.data.items),
           loading: false,
           pageNum: pageNum + 1,
+          error: false,
         });
       } catch (e) {
         const errorContent = e;

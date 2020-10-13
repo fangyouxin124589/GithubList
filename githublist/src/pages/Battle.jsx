@@ -1,5 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+  Link,
+} from "react-router-dom";
 import axios from "axios";
 
 import "@/css/Battle.css";
@@ -28,13 +35,13 @@ class BattleBegin extends React.Component {
       return;
     }
     //得到Player One的url
-    const urlOne = `https://api.github.com/search/repositories?q=${inputOne} in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlOne = `https://api.github.com/search/repositories?q=${inputOne}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
     //开始查找
     this.setState({ loadingOne: true });
     try {
       const res = await axios.get(urlOne);
       //判断返回值是否为空
-      if (res.data.items.length == 0) {
+      if (res.data.items.length === 0) {
         this.setState({
           notFoundPlayerOne: true,
         });
@@ -61,11 +68,11 @@ class BattleBegin extends React.Component {
       this.refs.inputTwo.value = "";
       return;
     }
-    const urlTwo = `https://api.github.com/search/repositories?q=${inputTwo} in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlTwo = `https://api.github.com/search/repositories?q=${inputTwo}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
     this.setState({ loadingTwo: true });
     try {
       const res = await axios.get(urlTwo);
-      if (res.data.items.length == 0) {
+      if (res.data.items.length === 0) {
         this.setState({
           notFoundPlayerTwo: true,
         });
@@ -100,13 +107,13 @@ class BattleBegin extends React.Component {
   };
   //当焦点在Player One的输入框并按下enter键时
   oneEnter = (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       this.getPlayerOne();
     }
   };
   //当焦点在Player Two
   twoEnter = (e) => {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
       this.getPlayerTwo();
     }
   };
@@ -128,7 +135,7 @@ class BattleBegin extends React.Component {
       textAlign: "center",
       marginBottom: "20px",
     };
-    const { battleBegin, playerOne, playerTwo } = this.props;
+    const { playerOne, playerTwo } = this.props;
     const {
       isOne,
       isTwo,
@@ -289,9 +296,16 @@ class BattleBegin extends React.Component {
         </div>
         {isOne && isTwo && (
           <div style={divCenterStyle}>
-            <button onClick={battleBegin} className="battle_btn">
-              Battle
-            </button>
+            <Router>
+              <Link
+                to={{
+                  pathname: `/BattleEnd`,
+                  search: `?user1=${playerOne.name}&user2=${playerTwo.name}`,
+                }}
+              >
+                <button className="battle_btn">Battle</button>
+              </Link>
+            </Router>
           </div>
         )}
       </div>
@@ -305,8 +319,6 @@ class Battle extends React.Component {
     this.state = {
       playerOne: {}, //存储第一个数据
       playerTwo: {}, //存储第二个数据
-      battle: false, //判断是否已经比较，如果未比较，展示battleBegin面板，如果已经比较，展示battleEnd面板
-      winner: "", //胜利者
     };
   }
   //通过参数设置存储第一个数据
@@ -320,42 +332,6 @@ class Battle extends React.Component {
       playerTwo: twoData,
     });
   };
-  //开始比较两个项目
-  battleBegin = () => {
-    //从state中取出获取到的两个项目
-    const { playerOne, playerTwo } = this.state;
-    let winner = "";
-    if (playerOne.stargazers_count > playerTwo.stargazers_count) {
-      winner = playerOne.name;
-      this.setState({
-        battle: true,
-        winner,
-      });
-    } else if (playerOne.stargazers_count == playerTwo.stargazers_count) {
-      this.setState({
-        battle: true,
-        winner,
-      });
-    } else {
-      winner = playerTwo.name;
-      this.setState({
-        battle: true,
-        winner,
-      });
-    }
-    localStorage.setItem("playerOne", JSON.stringify(playerOne));
-    localStorage.setItem("playerTwo", JSON.stringify(playerTwo));
-    localStorage.setItem("winner", winner);
-    // this.props.history.push({
-    //   pathname: "/BattleEnd",
-    //   query: {
-    //     playerOne: { playerOne },
-    //     playerTwo: { playerTwo },
-    //     winner: { winner },
-    //   },
-    // });
-    this.props.history.push({ pathname: "/BattleEnd" });
-  };
   render() {
     const { playerOne, playerTwo } = this.state;
     return (
@@ -363,7 +339,6 @@ class Battle extends React.Component {
         <BattleBegin
           setPlayerOne={this.setPlayerOne}
           setPlayerTwo={this.setPlayerTwo}
-          battleBegin={this.battleBegin}
           playerOne={playerOne}
           playerTwo={playerTwo}
         ></BattleBegin>

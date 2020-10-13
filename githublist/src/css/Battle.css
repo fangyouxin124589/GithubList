@@ -53,8 +53,8 @@
 }
 
 .battle_btn {
-    min-width: 200px;
-    min-height: 40px;
+    width: 200px;
+    height: 40px;
     margin: 20px;
     font-size: 20px;
     border-radius: 5px;
@@ -62,6 +62,7 @@
     border: none;
     color: white;
     background-color: tomato;
+    text-decoration: none;
 }
 
 .showPlayer {
