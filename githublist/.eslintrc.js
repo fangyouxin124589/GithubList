@@ -55,7 +55,7 @@ module.exports = {
         ],
         // 禁止使用 console
         // @off console 的使用很常见
-        'no-console': 'error',
+        'no-console': 'off',
         // 禁止将常量作为分支条件判断中的测试表达式，但允许作为循环条件判断中的测试表达式
         'no-constant-condition': [
             'error',
@@ -941,7 +941,7 @@ module.exports = {
         // @fixable 禁止出现没必要的计算键名，比如 let a = { ['0']: 0 };
         'no-useless-computed-key': 'error',
         // 禁止出现没必要的 constructor，比如 constructor(value) { super(value) }
-        'no-useless-constructor': 'error',
+        'no-useless-constructor': 'off',
         // @fixable 禁止解构时出现同样名字的的重命名，比如 let { foo: foo } = bar;
         'no-useless-rename': 'error',
         // @fixable 禁止使用 var

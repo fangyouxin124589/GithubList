@@ -71,6 +71,7 @@ class Popular extends React.Component {
       tabUrl: url,
       pageNum: 1,
       hasMore: true,
+      error: false
     });
     setTimeout(() => {
       this.FetchGit();
@@ -90,10 +91,11 @@ class Popular extends React.Component {
           obj[res[0]] = res[1];
         }
       }
-      // console.log(obj.language);
+      console.log(obj.language);
       if (obj.language) {
         try {
-          const url = `https://api.github.com/search/repositories?q=stars:%3E1+language:${obj.language}&sort=stars&order=desc&type=Repositories&page=`;
+          const tabUrl = `https://api.github.com/search/repositories?q=stars:%3E1+language:${obj.language}&sort=stars&order=desc&type=Repositories&page=`;
+          const url = tabUrl + this.state.pageNum;
           const res = await axios.get(url);
           // console.log(res);
           this.setState({
@@ -101,7 +103,7 @@ class Popular extends React.Component {
             loading: false,
             count: this.state.count + 1,
             name: obj.language,
-            tabUrl: url,
+            tabUrl: tabUrl,
             pageNum: 2,
           });
           const filterOption = document.getElementById(obj.language);
@@ -188,6 +190,14 @@ class Popular extends React.Component {
     let renderInfo;
     const { githubData, loading, hasMore, errorContent, error } = this.state;
     // const addList = loading ? "add_hide" : "add_more";
+    renderInfo = (
+      <div>
+        <h3 style={{ textAlign: "center" }}>
+          世界名画~~~（github热门项目加载中）<i className="fa fa-spinner fa-spin"></i>
+        </h3>
+        <Load />
+      </div>
+    );
     if (githubData.length !== 0) {
       renderInfo = (
         <InfiniteScroll
@@ -229,45 +239,38 @@ class Popular extends React.Component {
           <Load />
         </div>
       );
-    } else {
-      renderInfo = (
-        <div>
-          <h3 style={{ textAlign: "center" }}>
-            世界名画~~~（github热门项目加载中）
-          </h3>
-          <Load />
-        </div>
-      );
     }
     return (
       <div>
         <span className="title">Github热门项目</span>
         <div className="tab d-flex flex-wrap">
-          <Router>
-            {this.state.tabList.map((list, index) => {
-              return (
-                // <button
-                //   key={index}
-                //   className="tab-list"
-                //   data-filter={list.name}
-                //   id={list.name}
-                //   onClick={(e) => this.switchTab(e, list)}
-                // >
-                //   {list.name}
-                // </button>
-                <NavLink
-                  to={`/Popular?language=${list.name}`}
-                  className="tab-list"
-                  key={index}
-                  data-filter={list.name}
-                  id={list.name}
-                  onClick={(e) => this.switchTab(e, list)}
-                >
-                  {list.name}
-                </NavLink>
-              );
-            })}
-          </Router>
+          {this.state.tabList.map((list, index) => {
+            return (
+              // <button
+              //   key={index}
+              //   className="tab-list"
+              //   data-filter={list.name}
+              //   id={list.name}
+              //   onClick={(e) => this.switchTab(e, list)}
+              // >
+              //   {list.name}
+              // </button>
+              <NavLink
+                // to={`/Popular?language=${list.name}`}
+                to={{
+                  pathname: `/Popular`,
+                  search: `?language=${list.name}`,
+                }}
+                className="tab-list"
+                key={index}
+                data-filter={list.name}
+                id={list.name}
+                onClick={(e) => this.switchTab(e, list)}
+              >
+                {list.name}
+              </NavLink>
+            );
+          })}
         </div>
         <div className="list-content d-flex flex-wrap">{renderInfo}</div>
       </div>

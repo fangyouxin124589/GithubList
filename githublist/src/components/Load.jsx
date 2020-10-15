@@ -6,7 +6,7 @@ class Load extends React.Component {
     super(props);
   }
 
-  render () {
+  render() {
       return (
           <div className="load d-flex flex-wrap flex-row">
               <div className="load_img"></div>

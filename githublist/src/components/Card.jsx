@@ -59,7 +59,7 @@ class Card extends React.Component {
         <div style={itemDetStyle}>
           <div style={{ marginBottom: "5px" }}>
             <FontAwesomeIcon style={listUserIcon} icon={faUser} />
-            <span style={{ fontWeight: "bold"}}> {name}</span>
+            <span style={{ fontWeight: "bold" }}> {name}</span>
           </div>
           <div style={{ marginBottom: "5px" }}>
             <FontAwesomeIcon style={listStarIcon} icon={faStar} />

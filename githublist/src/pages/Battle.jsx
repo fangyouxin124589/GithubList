@@ -296,16 +296,18 @@ class BattleBegin extends React.Component {
         </div>
         {isOne && isTwo && (
           <div style={divCenterStyle}>
-            <Router>
-              <Link
-                to={{
-                  pathname: `/BattleEnd`,
-                  search: `?user1=${playerOne.name}&user2=${playerTwo.name}`,
-                }}
-              >
-                <button className="battle_btn">Battle</button>
-              </Link>
-            </Router>
+            <Link
+              to={{
+                pathname: `/BattleEnd`,
+                search: `?user1=${playerOne.name}&user2=${playerTwo.name}`,
+                state: {
+                  playerOne,
+                  playerTwo
+                },
+              }}
+            >
+              <button className="battle_btn">Battle</button>
+            </Link>
           </div>
         )}
       </div>

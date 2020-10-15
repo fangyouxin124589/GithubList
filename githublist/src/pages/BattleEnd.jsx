@@ -29,7 +29,7 @@ class BattleEnd extends React.Component {
     this.fetchGet();
   }
   async fetchGet() {
-    // console.log(this.props);
+    console.log(this.props);
     let obj = {};
     if (window.location.href.includes("?")) {
       let arr = window.location.href.split("?")[1].split("&");
