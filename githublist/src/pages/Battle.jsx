@@ -39,7 +39,7 @@ class BattleBegin extends React.Component {
       return;
     }
     //得到Player One的url
-    const urlOne = `https://api.github.com/search/repositories?q=${inputOne}&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlOne = `https://api.github.com/search/repositories?q=${inputOne}`;
     //开始查找
     this.setState({ loadingOne: true });
     try {
@@ -57,10 +57,10 @@ class BattleBegin extends React.Component {
       //标识已找到
       this.setState({ isOne: true, notFoundPlayerOne: false, errorOne: false });
     } catch (e) {
-      console.log("getPlayerOne: ", e.message);
+      console.log("getPlayerOne: ", e.response.data.message);
       this.setState({
         errorOne: true,
-        errorOneMessage: e.message,
+        errorOneMessage: e.response.data.message,
       });
     }
     this.setState({ loadingOne: false });
@@ -78,7 +78,7 @@ class BattleBegin extends React.Component {
       this.refs.inputTwo.value = "";
       return;
     }
-    const urlTwo = `https://api.github.com/search/repositories?q=${inputTwo}&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlTwo = `https://api.github.com/search/repositories?q=${inputTwo}`;
     this.setState({ loadingTwo: true });
     try {
       const res = await axios.get(urlTwo);
@@ -92,10 +92,10 @@ class BattleBegin extends React.Component {
       this.props.setPlayerTwo(res.data.items[0]);
       this.setState({ isTwo: true, notFoundPlayerTwo: false, errorTwo: false });
     } catch (e) {
-      console.log("getPlayerTwo: ", e.message);
+      console.log("getPlayerTwo: ", e.response.data.message);
       this.setState({
         errorTwo: true,
-        errorTwoMessage: e.message,
+        errorTwoMessage: e.response.data.message,
       });
     }
     this.setState({ loadingTwo: false });
@@ -174,7 +174,7 @@ class BattleBegin extends React.Component {
       );
     } else if (errorOne) {
       renderInfoOne = (
-        <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+        <p style={{ color: "red", fontSize: "14px", marginTop: "5px", width: "300px" }}>
           {errorOneMessage}
         </p>
       );
@@ -187,7 +187,7 @@ class BattleBegin extends React.Component {
       );
     } else if (errorTwo) {
       renderInfoTwo = (
-        <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+        <p style={{ color: "red", fontSize: "14px", marginTop: "5px", width: "300px" }}>
           {errorTwoMessage}
         </p>
       );

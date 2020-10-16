@@ -115,8 +115,9 @@ class Popular extends React.Component {
             filterOption.classList.add("active");
           }
         } catch (e) {
-          const errorContent = e;
+          const errorContent = e.response.data.message;
           this.setState({
+            githubData: [],
             errorContent,
             error: true,
           });
@@ -145,8 +146,9 @@ class Popular extends React.Component {
             filterOption.classList.add("active");
           }
         } catch (e) {
-          const errorContent = e;
+          const errorContent = e.response.data.message;
           this.setState({
+            githubData: [],
             errorContent,
             error: true,
           });
@@ -162,7 +164,8 @@ class Popular extends React.Component {
       }
       try {
         const url = tabUrl + pageNum;
-        const res = await axios.get(url);
+        const res = await axios.get(url)
+        // console.log(res);
         this.setState({
           githubData: githubData.concat(res.data.items),
           loading: false,
@@ -170,8 +173,10 @@ class Popular extends React.Component {
           error: false,
         });
       } catch (e) {
-        const errorContent = e;
+        const errorContent = e.response.data.message;
+        // console.log(e.response.data.message);
         this.setState({
+          githubData: [],
           errorContent,
           error: true,
         });
@@ -234,9 +239,8 @@ class Popular extends React.Component {
       renderInfo = (
         <div>
           <h3 style={{ textAlign: "center", color: "red" }}>
-            {errorContent.message}
+            {errorContent}
           </h3>
-          <Load />
         </div>
       );
     }
