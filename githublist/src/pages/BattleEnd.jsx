@@ -39,8 +39,8 @@ class BattleEnd extends React.Component {
       }
     }
     const { user1, user2 } = obj;
-    const urlOne = `https://api.github.com/search/repositories?q=${user1}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
-    const urlTwo = `https://api.github.com/search/repositories?q=${user2}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlOne = `https://api.github.com/search/repositories?q=${user1}&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlTwo = `https://api.github.com/search/repositories?q=${user2}&sort=stars&order=desc&type=Repositories&per_page=1`;
     const resOne = await axios.get(urlOne);
     const resTwo = await axios.get(urlTwo);
     const playerOne = resOne.data.items[0];

@@ -1,10 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { resolve } = require("path");
+const fullhash = "12sdarewr1231sdawe"
 module.exports = {
   mode: "development",
   entry: ["./src/index.js"],
-  output: { filename: "bundle.js", path: path.resolve(__dirname, "dist") },
+  output: { filename: `bundle.${fullhash}.js`, path: path.resolve(__dirname, "dist") },
   module: {
     rules: [
       { test: /\.(js|jsx)$/, use: "babel-loader" },

@@ -39,7 +39,7 @@ class BattleBegin extends React.Component {
       return;
     }
     //得到Player One的url
-    const urlOne = `https://api.github.com/search/repositories?q=${inputOne}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlOne = `https://api.github.com/search/repositories?q=${inputOne}&sort=stars&order=desc&type=Repositories&per_page=1`;
     //开始查找
     this.setState({ loadingOne: true });
     try {
@@ -78,7 +78,7 @@ class BattleBegin extends React.Component {
       this.refs.inputTwo.value = "";
       return;
     }
-    const urlTwo = `https://api.github.com/search/repositories?q=${inputTwo}in:name&sort=stars&order=desc&type=Repositories&per_page=1`;
+    const urlTwo = `https://api.github.com/search/repositories?q=${inputTwo}&sort=stars&order=desc&type=Repositories&per_page=1`;
     this.setState({ loadingTwo: true });
     try {
       const res = await axios.get(urlTwo);
