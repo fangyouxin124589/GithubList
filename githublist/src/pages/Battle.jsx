@@ -22,6 +22,10 @@ class BattleBegin extends React.Component {
       loadingTwo: false,
       notFoundPlayerOne: false,
       notFoundPlayerTwo: false,
+      errorOne: false,
+      errorTwo: false,
+      errorOneMessage: "",
+      errorTwoMessage: "",
     };
   }
   //查找Player One
@@ -51,8 +55,14 @@ class BattleBegin extends React.Component {
       //返回值不为空，调用Battle里的setPlayerOne函数存值
       this.props.setPlayerOne(res.data.items[0]);
       //标识已找到
-      this.setState({ isOne: true, notFoundPlayerOne: false });
-    } catch (e) {}
+      this.setState({ isOne: true, notFoundPlayerOne: false, errorOne: false });
+    } catch (e) {
+      console.log("getPlayerOne: ", e.message);
+      this.setState({
+        errorOne: true,
+        errorOneMessage: e.message,
+      });
+    }
     this.setState({ loadingOne: false });
   };
   //重新查找Player One
@@ -80,8 +90,14 @@ class BattleBegin extends React.Component {
         return;
       }
       this.props.setPlayerTwo(res.data.items[0]);
-      this.setState({ isTwo: true, notFoundPlayerTwo: false });
-    } catch (e) {}
+      this.setState({ isTwo: true, notFoundPlayerTwo: false, errorTwo: false });
+    } catch (e) {
+      console.log("getPlayerTwo: ", e.message);
+      this.setState({
+        errorTwo: true,
+        errorTwoMessage: e.message,
+      });
+    }
     this.setState({ loadingTwo: false });
   };
   findTwoAgain = () => {
@@ -143,6 +159,10 @@ class BattleBegin extends React.Component {
       loadingTwo,
       notFoundPlayerOne,
       notFoundPlayerTwo,
+      errorOne,
+      errorOneMessage,
+      errorTwo,
+      errorTwoMessage,
     } = this.state;
     let renderInfoOne;
     let renderInfoTwo;
@@ -152,8 +172,12 @@ class BattleBegin extends React.Component {
           未找到该用户
         </p>
       );
-    } else {
-      renderInfoOne = <p></p>;
+    } else if (errorOne) {
+      renderInfoOne = (
+        <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+          {errorOneMessage}
+        </p>
+      );
     }
     if (notFoundPlayerTwo) {
       renderInfoTwo = (
@@ -161,8 +185,12 @@ class BattleBegin extends React.Component {
           未找到该用户
         </p>
       );
-    } else {
-      renderInfoTwo = <p></p>;
+    } else if (errorTwo) {
+      renderInfoTwo = (
+        <p style={{ color: "red", fontSize: "14px", marginTop: "5px" }}>
+          {errorTwoMessage}
+        </p>
+      );
     }
     return (
       <div className="container">
@@ -302,7 +330,7 @@ class BattleBegin extends React.Component {
                 search: `?user1=${playerOne.name}&user2=${playerTwo.name}`,
                 state: {
                   playerOne,
-                  playerTwo
+                  playerTwo,
                 },
               }}
             >
