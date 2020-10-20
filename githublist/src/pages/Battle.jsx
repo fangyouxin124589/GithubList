@@ -45,7 +45,7 @@ class BattleBegin extends React.Component {
     try {
       const res = await axios.get(urlOne);
       //判断返回值是否为空
-      if (res.data.items.length === 0) {
+      if (res.data.total_count === 0) {
         this.setState({
           notFoundPlayerOne: true,
         });
@@ -57,11 +57,13 @@ class BattleBegin extends React.Component {
       //标识已找到
       this.setState({ isOne: true, notFoundPlayerOne: false, errorOne: false });
     } catch (e) {
-      console.log("getPlayerOne: ", e.response.data.message);
-      this.setState({
-        errorOne: true,
-        errorOneMessage: e.response.data.message,
-      });
+      if (e.response) {
+        console.log("getPlayerOne: ", e.response.data.message);
+        this.setState({
+          errorOne: true,
+          errorOneMessage: e.response.data.message,
+        });
+      }
     }
     this.setState({ loadingOne: false });
   };
@@ -82,7 +84,7 @@ class BattleBegin extends React.Component {
     this.setState({ loadingTwo: true });
     try {
       const res = await axios.get(urlTwo);
-      if (res.data.items.length === 0) {
+      if (res.data.total_count === 0) {
         this.setState({
           notFoundPlayerTwo: true,
         });
@@ -92,11 +94,13 @@ class BattleBegin extends React.Component {
       this.props.setPlayerTwo(res.data.items[0]);
       this.setState({ isTwo: true, notFoundPlayerTwo: false, errorTwo: false });
     } catch (e) {
-      console.log("getPlayerTwo: ", e.response.data.message);
-      this.setState({
-        errorTwo: true,
-        errorTwoMessage: e.response.data.message,
-      });
+      if (e.response) {
+        console.log("getPlayerTwo: ", e.response.data.message);
+        this.setState({
+          errorTwo: true,
+          errorTwoMessage: e.response.data.message,
+        });
+      }
     }
     this.setState({ loadingTwo: false });
   };
@@ -174,7 +178,14 @@ class BattleBegin extends React.Component {
       );
     } else if (errorOne) {
       renderInfoOne = (
-        <p style={{ color: "red", fontSize: "14px", marginTop: "5px", width: "300px" }}>
+        <p
+          style={{
+            color: "red",
+            fontSize: "14px",
+            marginTop: "5px",
+            width: "300px",
+          }}
+        >
           {errorOneMessage}
         </p>
       );
@@ -187,7 +198,14 @@ class BattleBegin extends React.Component {
       );
     } else if (errorTwo) {
       renderInfoTwo = (
-        <p style={{ color: "red", fontSize: "14px", marginTop: "5px", width: "300px" }}>
+        <p
+          style={{
+            color: "red",
+            fontSize: "14px",
+            marginTop: "5px",
+            width: "300px",
+          }}
+        >
           {errorTwoMessage}
         </p>
       );
